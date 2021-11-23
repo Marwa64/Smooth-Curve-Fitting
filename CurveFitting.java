@@ -80,7 +80,8 @@ public class CurveFitting {
 			}
 		}
 	    try {
-	        FileWriter myWriter = new FileWriter("Solution.txt");
+	        FileWriter myWriter = new FileWriter("Solution.txt", true);
+	        myWriter.write("\n");
 			for (int x = 0; x < bestChild.size(); x++) {
 				System.out.print(bestChild.get(x) + ", ");
 				myWriter.write(bestChild.get(x) + ", ");
