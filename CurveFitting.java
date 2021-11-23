@@ -81,13 +81,13 @@ public class CurveFitting {
 		}
 	    try {
 	        FileWriter myWriter = new FileWriter("Solution.txt", true);
-	        myWriter.write("\n");
 			for (int x = 0; x < bestChild.size(); x++) {
 				System.out.print(bestChild.get(x) + ", ");
 				myWriter.write(bestChild.get(x) + ", ");
 			}
 	        myWriter.write("Error = " + bestFitness);
 	        System.out.println("Error = " + bestFitness);
+	        myWriter.write("\n");
 	        myWriter.close();
 	      } catch (IOException e) {
 	        System.out.println("An error occurred.");
@@ -166,8 +166,16 @@ public class CurveFitting {
 		
 		double random = Math.random() * (individual1.size() - 1);
 		double random2 = Math.random() * (individual1.size() - 1);
+		
+		if(random > random2)
+		{
+			int tmp = (int)random;
+			random = random2;
+			random2 = tmp;
+			
+		}
 		for (int i = 0; i < individual1.size(); i++) {
-			if (random >= i || random2 <= i) {
+			if (random < i && random2 >= i) {
 				offspring1.add(individual1.get(i));
 				offspring2.add(individual2.get(i));
 			}
@@ -198,7 +206,9 @@ public class CurveFitting {
 					}
 					double power = 1 - (generation / MaximumGeneration);
 					float result = (float) (y * (1 - Math.pow(random, power)));
-					float newGene = crossedOver.get(i).get(j) - result;
+					float newGene;
+					if(y == lowerBound) newGene = crossedOver.get(i).get(j) - result;
+					else  newGene = crossedOver.get(i).get(j) + result;
 					mutated.add(newGene);
 				} else {
 					mutated.add(crossedOver.get(i).get(j));
